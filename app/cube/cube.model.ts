@@ -1,9 +1,9 @@
 import { rotateCW, rotateCCW, Dictionary } from "./cube.utils";
-import { RotationDirection, cubeFacetNeighbours, NeighbourInfo, NeighbouringEdge, FacetId } from "./cube.constants";
+import { RotationDirection, cubeFacetNeighboursInfo, NeighbourInfo, FacetId } from "./cube.constants";
 
 export class Cube {
 
-    private readonly facetNieghbours: Dictionary<NeighbourInfo[]> = cubeFacetNeighbours;
+    private readonly facetNeighbours: Dictionary<NeighbourInfo[]> = cubeFacetNeighboursInfo;
 
     private constructor(private facets: Dictionary<string[][]>) {};
 
@@ -16,17 +16,17 @@ export class Cube {
 
         // rotate edges of neighbouring facets
         // get neighbour facets (with neighbour edge as the first row of the facet)
-        let neighbours = this.facetNieghbours[facetId]
+        let neighbours = this.facetNeighbours[facetId]
             .map(neighbourInfo => this.buildNeighbour(neighbourInfo))
             .map(neighbour => this.normalizeOrientation(neighbour));
 
         // swap top rows between the neighbouring facets 
         this.rotateTopRows(neighbours, direction);
         
-        // return to the original orientation
+        // return neighbour facets to the original orientation
         neighbours = neighbours.map(neighbour => this.resetOrientation(neighbour));
 
-        // publish result
+        // publish the result
         this.facets[facetId] = mainFacet;
         neighbours.forEach(neighbour => {
             const { neighbourId, neighbourFacet } = neighbour;
@@ -77,8 +77,8 @@ export class Cube {
         return neighbours;
     }
 
-    private getNumberOfRotations(edge: NeighbouringEdge): number {
-        // enum value reflects number of cw rotations needed to make neighbouring edge point upward
+    private getNumberOfRotations(edge: number): number {
+        // value reflects number of cw rotations needed to make neighbouring edge point upward
         return edge as number; 
     }
 
@@ -93,6 +93,6 @@ export class Cube {
 
 export interface Neighbour {
     neighbourId: string;
-    neighbouringEdge: NeighbouringEdge;
+    neighbouringEdge: number;
     neighbourFacet: string[][];
 }

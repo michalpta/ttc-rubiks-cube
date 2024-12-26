@@ -4,6 +4,7 @@ import { Dictionary } from "./cube.utils";
 
 const { ORANGE, RED, GREEN, BLUE, WHITE, YELLOW } = Color;
 
+/* STATE */
 export class CubeState {
     facets!: Dictionary<string[][]>; 
 
@@ -21,6 +22,7 @@ export class CubeState {
     }
 }
 
+/* ACTIONS */
 class CubeActionType {
     static CubeRotate = 'CubeRotate';
     static CubeReset = 'CubeReset';
@@ -34,6 +36,7 @@ export class CubeResetAction {
     readonly type = CubeActionType.CubeReset;
 }
 
+/* REDUCER */
 export const cubeReducer = ({ facets }: CubeState, action: CubeAction): CubeState => {
     if (action.type === CubeActionType.CubeRotate) {
         const { facetId, direction } = action as CubeRotateAction;

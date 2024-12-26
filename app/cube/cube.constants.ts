@@ -35,7 +35,7 @@ export interface NeighbourInfo {
     neighbouringEdge: number;
 }
 
-export const cubeFacetNeighbours: Dictionary<NeighbourInfo[]> = {
+export const cubeFacetNeighboursInfo: Dictionary<NeighbourInfo[]> = {
     [FacetId.Front]: [
         { neighbourId: FacetId.Up, neighbouringEdge: NeighbouringEdge.Down },
         { neighbourId: FacetId.Right, neighbouringEdge: NeighbouringEdge.Left },
