@@ -21,22 +21,24 @@ export default function Cube() {
 
   return (
     <div>
-      <div className="grid grid-cols-4 m-8 p-4 border border-gray-900">
-        <div>{/* grid-placeholder */}</div> 
-        <Facet facetColors={facets[Up]} /> 
-        <div>{/* grid-placeholder */}</div>
-        <div>{/* grid-placeholder */}</div>
-        <Facet facetColors={facets[Left]} /> 
-        <Facet facetColors={facets[Front]} /> 
-        <Facet facetColors={facets[Right]} /> 
-        <Facet facetColors={facets[Back]} />
-        <div>{/* grid-placeholder */}</div> 
-        <Facet facetColors={facets[Down]} /> 
-        <div>{/* grid-placeholder */}</div>
-        <div>{/* grid-placeholder */}</div>
+      <div className="flex justify-center mb-8">
+        <div className="grid grid-cols-4 gap-2">
+          <div>{/* grid-placeholder */}</div> 
+          <Facet facetColors={facets[Up]} /> 
+          <div>{/* grid-placeholder */}</div>
+          <div>{/* grid-placeholder */}</div>
+          <Facet facetColors={facets[Left]} /> 
+          <Facet facetColors={facets[Front]} /> 
+          <Facet facetColors={facets[Right]} /> 
+          <Facet facetColors={facets[Back]} />
+          <div>{/* grid-placeholder */}</div> 
+          <Facet facetColors={facets[Down]} /> 
+          <div>{/* grid-placeholder */}</div>
+          <div>{/* grid-placeholder */}</div>
+        </div>
       </div>
       <div className="text-center uppercase tracking-widest text-gray-500 mb-2">
-        Operations
+        Rotations
       </div>
       <div className="grid grid-rows-2 grid-flow-col gap-2 justify-center mb-4">
         {[Front, Right, Up, Back, Left, Down].map((facet) =>
@@ -46,7 +48,7 @@ export default function Cube() {
           </Fragment>
         )}
       </div>
-      <div className="grid justify-center">
+      <div className="grid justify-center mb-4">
         <Button onClick={reset}>Reset</Button>
       </div>
     </div>
