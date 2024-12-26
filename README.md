@@ -1,7 +1,7 @@
 # TTC Rubik's Cube Challenge
 by Michal Ptaszek (michal.a.ptaszek@gmail.com)
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [create-next-app](https://nextjs.org/docs/pages/api-reference/create-next-app) that simulates the Rubik's Cube. The app is optimized for viewing in desktop resolutions only.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [create-next-app](https://nextjs.org/docs/pages/api-reference/create-next-app) that simulates the Rubik's Cube.
 
 Enjoy!
 
