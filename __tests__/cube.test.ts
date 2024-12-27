@@ -1,6 +1,6 @@
 import { Color, FacetId, RotationDirection } from '../app/cube/cube.constants'
 import { Cube } from '../app/cube/cube.model';
-import { CubeState } from '@/app/cube/cube.reducer';
+import { CubeState } from '../app/cube/cube.reducer';
  
 describe('Cube', () => {
   it('rotates facets properly', () => {
