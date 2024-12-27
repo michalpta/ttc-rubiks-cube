@@ -6,20 +6,19 @@ const { ORANGE, RED, GREEN, BLUE, WHITE, YELLOW } = Color;
 
 /* STATE */
 export class CubeState {
+    
     facets!: Dictionary<string[][]>; 
 
-    static default(): CubeState {
-        return {
-            facets: {
-                [FacetId.Front]: buildColorArray(GREEN),
-                [FacetId.Right]: buildColorArray(RED),
-                [FacetId.Back]: buildColorArray(BLUE),
-                [FacetId.Left]: buildColorArray(ORANGE),
-                [FacetId.Up]: buildColorArray(WHITE),
-                [FacetId.Down]: buildColorArray(YELLOW),
-            }
-        };
-    }
+    static default: CubeState = {
+        facets: {
+            [FacetId.Front]: buildColorArray(GREEN),
+            [FacetId.Right]: buildColorArray(RED),
+            [FacetId.Back]: buildColorArray(BLUE),
+            [FacetId.Left]: buildColorArray(ORANGE),
+            [FacetId.Up]: buildColorArray(WHITE),
+            [FacetId.Down]: buildColorArray(YELLOW),
+        }
+    };
 }
 
 /* ACTIONS */
@@ -45,7 +44,7 @@ export const cubeReducer = ({ facets }: CubeState, action: CubeAction): CubeStat
         return { facets: cube.getFacets() };
     }
     if (action.type === CubeActionType.CubeReset) {
-        return CubeState.default();
+        return CubeState.default;
     }
     return { facets };
 };

@@ -6,7 +6,7 @@ import { FacetId, RotationDirection } from "./cube.constants";
 
 export default function Cube() {
 
-  const [state, dispatch] = useReducer(cubeReducer, CubeState.default());
+  const [state, dispatch] = useReducer(cubeReducer, CubeState.default);
 
   const rotate = (facetId: string, direction: string) => {
     dispatch(new CubeRotateAction(facetId, direction));

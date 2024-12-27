@@ -5,7 +5,7 @@ import { CubeState } from '../app/cube/cube.reducer';
 describe('Cube', () => {
   it('rotates facets properly', () => {
     // arrange
-    const state = CubeState.default();
+    const state = CubeState.default;
     const instance = Cube.from(state.facets);
 
     // act
