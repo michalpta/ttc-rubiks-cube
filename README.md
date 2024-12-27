@@ -1,4 +1,4 @@
-# TTC Rubik's Cube Challenge
+# TTC Rubik's Cube
 by Michal Ptaszek (michal.a.ptaszek@gmail.com)
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [create-next-app](https://nextjs.org/docs/pages/api-reference/create-next-app) that simulates the Rubik's Cube.
@@ -7,20 +7,23 @@ Enjoy!
 
 ## How to Run
 
-Run the development server:
+1. Clone the repository.
+1. Restore npm packages:
+   ```bash
+   npm install
+   ```
+1. Run the development server: 
+   ```bash
+   npm run dev
+   ```
 
-```bash
-npm run dev
-```
-
-Then open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Then open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## How to Test
 
-Run the test:
+1. Run the test:
+   ```bash
+   npm test
+   ```
 
-```bash
-npm test
-```
-
-Explore the test results in the console.
+1. Then explore the test results in the console.
