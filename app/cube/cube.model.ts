@@ -15,7 +15,7 @@ export class Cube {
             : rotateCCW(mainFacet);
 
         // rotate edges of neighbouring facets
-        // get neighbour facets (with neighbour edge as the first row of the facet)
+        // get neighbour facets (with neighbouring edge as the first top row of the facet)
         let neighbours = this.facetNeighbours[facetId]
             .map(neighbourInfo => this.buildNeighbour(neighbourInfo))
             .map(neighbour => this.normalizeOrientation(neighbour));
@@ -44,7 +44,7 @@ export class Cube {
         return { neighbourId, neighbouringEdge, neighbourFacet };
     }
 
-    /* rotates facet so the neighbouring edge is the first row of the facet */
+    /* rotates facet so the neighbouring edge is the first top row of the facet */
     private normalizeOrientation(neighbour: Neighbour): Neighbour {
         const { neighbourId, neighbouringEdge } = neighbour;
         let { neighbourFacet } = neighbour;
@@ -64,17 +64,16 @@ export class Cube {
         return { neighbourId, neighbouringEdge, neighbourFacet };
     }
 
-    private rotateTopRows(neighbours: Neighbour[], direction: string) {
+    private rotateTopRows(neighbours: Neighbour[], direction: string): void {
         if (direction == RotationDirection.CounterClockwise)
             neighbours = neighbours.reverse();
     
-        let edgeOfPreviouseNeighbour = neighbours[neighbours.length - 1].neighbourFacet[0];
-        for (let i = 0; i < neighbours.length; i++) {
-            const edgeForNextNeighbour = neighbours[i].neighbourFacet[0];
-            neighbours[i].neighbourFacet[0] = [...edgeOfPreviouseNeighbour];
-            edgeOfPreviouseNeighbour = edgeForNextNeighbour;
-        }
-        return neighbours;
+        let edgeOfPreviousNeighbour = neighbours[neighbours.length - 1].neighbourFacet[0];
+        neighbours.forEach((neighbour) => {
+            const edgeForNextNeighbour = neighbour.neighbourFacet[0];
+            neighbour.neighbourFacet[0] = [...edgeOfPreviousNeighbour];
+            edgeOfPreviousNeighbour = edgeForNextNeighbour;
+        });
     }
 
     private getNumberOfRotations(edge: number): number {
