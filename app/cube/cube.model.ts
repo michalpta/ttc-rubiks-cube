@@ -3,35 +3,34 @@ import { RotationDirection, cubeFacetNeighboursInfo, NeighbourInfo, FacetId } fr
 
 export class Cube {
 
-    private readonly facetNeighbours: Dictionary<NeighbourInfo[]> = cubeFacetNeighboursInfo;
+    private readonly facetNeighboursInfo: Dictionary<NeighbourInfo[]> = cubeFacetNeighboursInfo;
 
     private constructor(private facets: Dictionary<string[][]>) {};
 
     public rotate(facetId: string, direction: string): void {
         // rotate main facet
-        let mainFacet = this.facets[facetId];
-        mainFacet = direction == RotationDirection.Clockwise
-            ? rotateCW(mainFacet)
-            : rotateCCW(mainFacet);
+        const mainFacet = direction == RotationDirection.Clockwise
+            ? rotateCW(this.facets[facetId])
+            : rotateCCW(this.facets[facetId]);
 
-        // rotate edges of neighbouring facets
-        // get neighbour facets (with neighbouring edge as the first top row of the facet)
-        let neighbours = this.facetNeighbours[facetId]
-            .map(neighbourInfo => this.buildNeighbour(neighbourInfo))
-            .map(neighbour => this.normalizeOrientation(neighbour));
+        // rotate edges of neighbouring facets...
+        // get neighbour facets
+        const neighbours = this.facetNeighboursInfo[facetId]
+            .map(neighbourInfo => this.buildNeighbour(neighbourInfo));
 
-        // swap top rows between the neighbouring facets 
-        this.rotateTopRows(neighbours, direction);
+        // rotate neighbour facets so the neighbouring edge is the first top row of the facet
+        neighbours.forEach(neighbour => this.normalizeOrientation(neighbour));
         
-        // return neighbour facets to the original orientation
-        neighbours = neighbours.map(neighbour => this.resetOrientation(neighbour));
+        // swap top rows between the neighbouring facets 
+        this.swapTopRowsBetween(neighbours, direction);
+
+        // return neighbour facets to their original orientation
+        neighbours.forEach(neighbour => this.resetOrientation(neighbour));
 
         // publish the result
         this.facets[facetId] = mainFacet;
-        neighbours.forEach(neighbour => {
-            const { neighbourId, neighbourFacet } = neighbour;
-            this.facets[neighbourId] = neighbourFacet;
-        });
+        neighbours
+            .forEach(neighbour => this.facets[neighbour.neighbourId] = neighbour.neighbourFacet);
     }
 
     public getFacets(): Dictionary<string[][]> {
@@ -44,41 +43,38 @@ export class Cube {
         return { neighbourId, neighbouringEdge, neighbourFacet };
     }
 
-    /* rotates facet so the neighbouring edge is the first top row of the facet */
-    private normalizeOrientation(neighbour: Neighbour): Neighbour {
-        const { neighbourId, neighbouringEdge } = neighbour;
-        let { neighbourFacet } = neighbour;
-        for (let i = 0; i < this.getNumberOfRotations(neighbouringEdge); i++)
-            neighbourFacet = rotateCW(neighbourFacet);
+    private normalizeOrientation(neighbour: Neighbour): void {
+        let facet = neighbour.neighbourFacet;
+        for (let i = 0; i < this.getNumberOfRotations(neighbour.neighbouringEdge); i++)
+            facet = rotateCW(facet);
 
-        return { neighbourId, neighbouringEdge, neighbourFacet };
+        neighbour.neighbourFacet = facet;
     }
 
-    /* reverts normalizeOrientation */
-    private resetOrientation(neighbour: Neighbour): Neighbour {
-        const { neighbourId, neighbouringEdge } = neighbour;
-        let { neighbourFacet } = neighbour;
-        for (let i = 0; i < this.getNumberOfRotations(neighbouringEdge); i++)
-            neighbourFacet = rotateCCW(neighbourFacet);
+    private resetOrientation(neighbour: Neighbour): void {
+        let facet = neighbour.neighbourFacet;
+        for (let i = 0; i < this.getNumberOfRotations(neighbour.neighbouringEdge); i++)
+            facet = rotateCCW(facet);
 
-        return { neighbourId, neighbouringEdge, neighbourFacet };
+        neighbour.neighbourFacet = facet;
     }
 
-    private rotateTopRows(neighbours: Neighbour[], direction: string): void {
+    private swapTopRowsBetween(neighbours: Neighbour[], direction: string): void {
         if (direction == RotationDirection.CounterClockwise)
             neighbours = neighbours.reverse();
     
-        let edgeOfPreviousNeighbour = neighbours[neighbours.length - 1].neighbourFacet[0];
+        const topRowIdx = 0;
+        let edgeOfPreviousNeighbour = neighbours[neighbours.length - 1].neighbourFacet[topRowIdx];
         neighbours.forEach((neighbour) => {
-            const edgeForNextNeighbour = neighbour.neighbourFacet[0];
-            neighbour.neighbourFacet[0] = [...edgeOfPreviousNeighbour];
+            const edgeForNextNeighbour = neighbour.neighbourFacet[topRowIdx];
+            neighbour.neighbourFacet[topRowIdx] = [...edgeOfPreviousNeighbour];
             edgeOfPreviousNeighbour = edgeForNextNeighbour;
         });
     }
 
     private getNumberOfRotations(edge: number): number {
-        // value reflects number of cw rotations needed to make neighbouring edge point upward
-        return edge as number; 
+        // value reflects number of CW rotations needed to make neighbouring edge point upward
+        return edge; 
     }
 
     public static from(facets: Dictionary<string[][]>): Cube {
