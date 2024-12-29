@@ -41,10 +41,10 @@ export default function Cube() {
         Rotations
       </div>
       <div className="grid grid-rows-2 grid-flow-col gap-2 justify-center mb-4">
-        {[Front, Right, Up, Back, Left, Down].map((facet) =>
-          <Fragment key={facet}>
-            <Button onClick={() => rotate(facet, Clockwise)}>{facet}</Button>  
-            <Button onClick={() => rotate(facet, CounterClockwise)}>{facet}&apos;</Button>
+        {[Front, Right, Up, Back, Left, Down].map((facetId) =>
+          <Fragment key={facetId}>
+            <Button onClick={() => rotate(facetId, Clockwise)}>{facetId}</Button>  
+            <Button onClick={() => rotate(facetId, CounterClockwise)}>{facetId}&apos;</Button>
           </Fragment>
         )}
       </div>
