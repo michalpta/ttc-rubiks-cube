@@ -34,7 +34,11 @@ export class Cube {
     }
 
     public getFacets(): Dictionary<string[][]> {
-        return this.facets;
+        const facets = {} as Dictionary<string[][]>;
+        Object.keys(this.facets)
+            .forEach(id => facets[id] = this.facets[id].map(row => [...row]));
+            
+        return facets;
     }
 
     private buildNeighbour(info: NeighbourInfo): Neighbour {

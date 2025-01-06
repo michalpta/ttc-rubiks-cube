@@ -9,7 +9,7 @@ export class CubeState {
     
     facets!: Dictionary<string[][]>; 
 
-    static default: CubeState = {
+    static readonly default: CubeState = {
         facets: {
             [FacetId.Front]: buildColorArray(GREEN),
             [FacetId.Right]: buildColorArray(RED),
